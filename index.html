@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Striker Legends</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0b1220;color:#fff;font-family:Arial,Helvetica,sans-serif;text-align:center;min-height:100vh}
+h1{margin:18px 0 6px;font-size:38px;letter-spacing:2px;color:#ffd54a}
+h2{margin:10px 0}
+.screen{display:none;padding:16px;max-width:900px;margin:auto}
+.screen.active{display:block}
+button{background:#1e88e5;color:#fff;border:0;border-radius:8px;padding:12px 22px;margin:6px;font-size:17px;cursor:pointer}
+button:hover{background:#42a5f5}
+button.sec{background:#37474f}
+select{padding:10px;margin:6px;font-size:16px;border-radius:6px;min-width:200px}
+.card{background:#16223a;border-radius:10px;padding:14px;margin:10px auto;max-width:620px;text-align:left}
+.row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+canvas{background:#1b8a3a;border:3px solid #fff;border-radius:6px;max-width:100%}
+#hud{font-size:22px;margin:8px 0}
+.small{font-size:14px;color:#9fb3c8}
+table{margin:auto;border-collapse:collapse;width:100%}
+td,th{padding:6px 8px;border-bottom:1px solid #2c3e5c}
+</style>
+</head>
+<body>
+<h1>STRIKER LEGENDS</h1>
+
+<div id="start" class="screen active">
+<h2>Press K to start</h2>
+<p class="small">or tap the button</p>
+<button onclick="show('menu')">Start</button>
+</div>
+
+<div id="menu" class="screen">
+<h2>Main Menu</h2>
+<button onclick="show('kickoff')">Kick Off</button><br>
+<button onclick="openUT()">Ultimate Team</button><br>
+<button onclick="openPC()">Player Career</button><br>
+<button onclick="openMC()">Manager Career</button>
+</div>
+
+<div id="kickoff" class="screen">
+<h2>Kick Off</h2>
+<div class="card">
+<p>Players:</p>
+<select id="players"><option value="1">1 Player (vs computer)</option><option value="2">2 Players (same keyboard)</option></select>
+<p>Home team type:</p>
+<select id="homeType" onchange="fillTeams()"><option value="nat">National teams</option><option value="club">Club teams</option></select>
+<p>Home team:</p><select id="homeTeam"></select>
+<p>Away team:</p><select id="awayTeam"></select>
+<p>Match length:</p>
+<select id="matchLen"><option value="60">1 minute</option><option value="120" selected>2 minutes</option><option value="180">3 minutes</option></select>
+</div>
+<button onclick="startMatch()">Play Match</button>
+<button class="sec" onclick="show('menu')">Back</button>
+<p class="small">Player 1: arrows to move, Space to pass, Z to shoot. Player 2: W A S D to move, F to pass, G to shoot.</p>
+</div>
+
+<div id="game" class="screen">
+<div id="hud"></div>
+<canvas id="pitch" width="800" height="480"></canvas>
+<div><button class="sec" onclick="endMatch(true)">Quit Match</button></div>
+</div>
+
+<div id="ut" class="screen">
+<h2>Ultimate Team</h2>
+<div class="card" id="utInfo"></div>
+<button onclick="openPack()">Open Pack (100 coins)</button>
+<button onclick="playUT()">Play Match (earn coins)</button>
+<button class="sec" onclick="show('menu')">Back</button>
+</div>
+
+<div id="pc" class="screen">
+<h2>Player Career</h2>
+<div class="card" id="pcInfo"></div>
+<button onclick="pcTrain()">Train (+1 rating)</button>
+<button onclick="pcMatch()">Play Next Match</button>
+<button class="sec" onclick="show('menu')">Back</button>
+</div>
+
+<div id="mc" class="screen">
+<h2>Manager Career</h2>
+<div class="card" id="mcInfo"></div>
+<button onclick="mcPlay()">Play Next Fixture</button>
+<button onclick="mcSim()">Simulate Next Fixture</button>
+<button class="sec" onclick="show('menu')">Back</button>
+</div>
+
+<div id="result" class="screen">
+<h2 id="resTitle"></h2>
+<div class="card" id="resBody"></div>
+<button onclick="afterResult()">Continue</button>
+</div>
+
+<script src="data.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
